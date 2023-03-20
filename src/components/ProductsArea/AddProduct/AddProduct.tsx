@@ -13,6 +13,7 @@ interface AddProductProps {
 }
 
 //curring
+// hello
 
 const AddProduct: FC<AddProductProps> = ({onClose}) => {
     const { register, handleSubmit, formState } = useForm<Product>();
