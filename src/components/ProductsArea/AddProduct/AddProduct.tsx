@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { useForm } from "react-hook-form";
 import Product from '../../../models/Product';
 import Input from '../../HomeArea/Input/Input';
+import validation from './validation';
 import styles from './AddProduct.module.scss';
 
 interface AddProductProps { }
@@ -20,8 +21,6 @@ const AddProduct: FC<AddProductProps> = () => {
         <div className={styles.AddProduct}>
             <h2>Add Product</h2>
             <form onSubmit={handleSubmit(submitProductHandler)} >
-
-                {/* <Input type="text" {...register('name')} /> */}
 
                 <label>Name:</label>
                 <input type="text" {...register('name')} />
