@@ -8,11 +8,13 @@ import FormGroupWithError from '../../FormGroupWithError/FormGroupWithError';
 import Button from '../../Button/Button';
 import Modal from '../../Modal/Modal';
 
-interface AddProductProps { }
+interface AddProductProps { 
+    onClose:() => void;
+}
 
 //curring
 
-const AddProduct: FC<AddProductProps> = () => {
+const AddProduct: FC<AddProductProps> = ({onClose}) => {
     const { register, handleSubmit, formState } = useForm<Product>();
 
     const submitProductHandler = (product: Product) => {
@@ -22,7 +24,7 @@ const AddProduct: FC<AddProductProps> = () => {
     console.log(formState.errors.name?.message); // have to add question mark in order to state that the error may not appear at all in the .message. if the name is adequate, then undefined is returned
 
     return (
-        <Modal>
+        <Modal onClose={onClose}>
             <div className={styles.AddProduct}>
                 <h2>Add Product</h2>
                 <form onSubmit={handleSubmit(submitProductHandler)} >

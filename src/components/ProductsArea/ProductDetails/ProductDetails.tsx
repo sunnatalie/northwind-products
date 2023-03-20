@@ -62,7 +62,7 @@ const ProductDetails: FC<ProductDetailsProps> = () => {
     return (
         <div className={styles.ProductDetails}>
             <header className={styles.ProductDetails__header}>
-                <h2>Product Details</h2>
+                {/* <h2>Product Details</h2> */}
             </header>
 
             <div className={styles.ProductDetails__body}>
