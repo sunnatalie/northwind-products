@@ -6,12 +6,12 @@ export default {
         maxLength:{value:30,message:"name too long"}
     },
     stock:{
-        required:{value:true,message:"missing name"}, 
+        required:{value:true,message:"missing stock"}, 
         min:{value:0,message:"too few"},
         max:{value:100,message:"too many"}
     },
     price:{
-        required:{value:true,message:"missing name"}, 
+        required:{value:true,message:"missing price"}, 
         min:{value:0,message:"please enter a valid price"},
         max:{value:1000,message:`price can't exceed 1000`}
     }
