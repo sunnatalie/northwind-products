@@ -3,29 +3,24 @@ import { useForm } from "react-hook-form";
 import Product from '../../../models/Product';
 import Input from '../../HomeArea/Input/Input';
 import validation from './validation';
-import styles from './AddProduct.module.scss';
+import styles from './EditProduct.module.scss';
 import FormGroupWithError from '../../FormGroupWithError/FormGroupWithError';
 import Button from '../../Button/Button';
 import Modal from '../../Modal/Modal';
 import { addProduct } from '../../../utils/fetch';
 
-interface AddProductProps { 
+interface EditProductProps { 
     onClose:() => void;
     onAddProduct:(product:Product) => void;
 }
 
 //curring
 
-const AddProduct: FC<AddProductProps> = ({onClose, onAddProduct}) => {
+const EditProduct: FC<EditProductProps> = ({onClose, onAddProduct}) => {
     const { register, handleSubmit, formState } = useForm<Product>();
 
     const submitProductHandler = (product: Product) => {
-        addProduct(product).then((_product) => {
-            onAddProduct(_product);
-            onClose();
-        }).catch((err) => {
-        console.log(err);
-        });
+        //
     }
 
     console.log(formState.errors.name?.message); // have to add question mark in order to state that the error may not appear at all in the .message. if the name is adequate, then undefined is returned
@@ -33,8 +28,8 @@ const AddProduct: FC<AddProductProps> = ({onClose, onAddProduct}) => {
     return (
         
         <Modal onClose={onClose}>
-            <div className={styles.AddProduct}>
-                <h2>Add Product</h2>
+            <div className={styles.Edit}>
+                <h2>Edit Product</h2>
                 <form onSubmit={handleSubmit(submitProductHandler)} >
 
                     <FormGroupWithError error={formState.errors.name?.message}>
@@ -68,7 +63,7 @@ const AddProduct: FC<AddProductProps> = ({onClose, onAddProduct}) => {
 
 
 
-export default AddProduct;
+export default EditProduct;
 
 
 

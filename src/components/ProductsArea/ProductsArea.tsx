@@ -5,7 +5,9 @@ import Loader from '../Loader/Loader';
 import Products from './Products/Products';
 import styles from './ProductsArea.module.scss';
 
-interface ProductsAreaProps { }
+interface ProductsAreaProps { 
+
+}
 
 const ProductsArea: FC<ProductsAreaProps> = () => {
     const [products, setProducts] = useState<Product[]>([]);
@@ -28,12 +30,15 @@ const ProductsArea: FC<ProductsAreaProps> = () => {
 
     }, []);
 
+    const addProductHandler = (product:Product) => {
+        setProducts((prevProducts) => {
+            // never mutate the state directly!!!
+            const productsToUpdate = [...prevProducts];
+            productsToUpdate.push(product);
 
-
-
-
-
-
+            return productsToUpdate;
+        });
+    }
 
 
     if (isLoading) {
@@ -46,7 +51,7 @@ const ProductsArea: FC<ProductsAreaProps> = () => {
 
     return (
         <div className={styles.ProductsArea}>
-            <Products products={products} />
+            <Products onAddProduct={addProductHandler} products={products} />
         </div>
     )
 }

@@ -4,14 +4,15 @@ import styles from './Modal.module.scss';
 
 interface ModalProps {
     children:React.ReactNode;
+    onClose:() => void;
 }
 
-const Modal: FC<ModalProps> = ({children}) => {
+const Modal: FC<ModalProps> = ({children, onClose}) => {
 
     const portal = (
         <div className={styles.Modal}>
-            <div className={styles.Modal__overlay}></div>
-            <div className={styles.content}>{ children }</div>
+            <div onClick={onClose} className={styles.Modal__overlay}></div>
+            <div className={styles.Modal__content}>{ children }</div>
         </div>
     )
 

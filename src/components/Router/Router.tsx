@@ -22,7 +22,7 @@ const Router: FC<RouterProps> = () => (
         <Route path="/products/:prodId" element={<ProductDetails />} />
 
         {/* Add Product */}
-        <Route path="/products/new" element={<AddProduct />} />
+        {/* <Route path="/products/new" element={<AddProduct />} /> */}
 
 
         {/* About */}
