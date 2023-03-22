@@ -8,9 +8,10 @@ import styles from './Products.module.scss';
 
 interface ProductsProps {
     products: Product[]
+    onAddProduct:(product:Product) => void;
 }
 
-const Products: FC<ProductsProps> = ({ products }) => {
+const Products: FC<ProductsProps> = ({ products, onAddProduct }) => {
 
     const [showAddProduct,setShowAddProduct] = useState(false);
 
@@ -32,7 +33,7 @@ const Products: FC<ProductsProps> = ({ products }) => {
             <ul className={styles.Products__list}>
                 {renderProducts()}
             </ul>
-            { showAddProduct && <AddProduct onClose={modalToggleHandler} /> }
+            { showAddProduct && <AddProduct onAddProduct={onAddProduct} onClose={modalToggleHandler} /> }
         </div>
     )
 }
