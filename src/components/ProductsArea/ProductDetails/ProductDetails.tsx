@@ -2,7 +2,7 @@ import React, { FC, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { BASE_API_URL } from '../../../config';
-import Product from '../../../models/Product';
+import Product from '../models/Product';
 import { deleteProduct, getProduct } from '../../../utils/fetch';
 import Loader from '../../Loader/Loader';
 import EditProduct from '../EditProduct/EditProduct';
@@ -20,6 +20,13 @@ const ProductDetails: FC<ProductDetailsProps> = () => {
 
     const modalToggleHandler = () => {
         setShowEditProduct((prevState) => !prevState);
+    }
+
+    const editProductHandler = (product:Product) => {
+        setProduct((prevProduct) => {
+            const updatedProduct = {...prevProduct,...product} //spread operator on both just in case
+            return updatedProduct;
+        })
     }
 
     const deleteProductHandler = async () => {
@@ -97,7 +104,7 @@ const ProductDetails: FC<ProductDetailsProps> = () => {
             <div className={styles.ProductDetails__body}>
                 {renderProduct()}
             </div>
-            {showEditProduct && <EditProduct onClose={modalToggleHandler} onAddProduct={() => { }} />}
+            {(showEditProduct && product) && <EditProduct onClose={modalToggleHandler} onEditProduct={editProductHandler} product={product}/>}
 
         </div>
     )

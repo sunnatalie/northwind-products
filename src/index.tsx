@@ -5,18 +5,15 @@ import './index.css';
 import App from './App';
 
 const root = ReactDOM.createRoot(
-    document.getElementById('root') as HTMLElement
+    document.getElementById('root') as HTMLElement //htmlelement is casting
 );
-root.render(
-    // <React.StrictMode>
-    <BrowserRouter>
-        <App />
-    </BrowserRouter>
 
+root.render(
+    // <React.StrictMode> //says that in development, functions on strict mode and renders everything twice (compares the difference twice between states)
+    <BrowserRouter> {/*  */}
+        <App /> {/* app is first component in the react tree that renders */}
+    </BrowserRouter>
     // </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 

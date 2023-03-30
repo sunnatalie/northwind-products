@@ -9,4 +9,4 @@ const Header: FC<HeaderProps> = () => (
     </header>
 );
 
-export default Header;
+export default Header; //can also replace Header with React.memo(Header) so that header won't render again every time

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import Product from '../models/Product';
+import Product from '../components/ProductsArea/models/Product';
 import { BASE_API_URL } from '../config';
 
 

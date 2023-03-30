@@ -1,13 +1,11 @@
 import React, { FC, useEffect, useState } from 'react';
-import Product from '../../models/Product';
+import Product from './models/Product';
 import { getProducts } from '../../utils/fetch';
 import Loader from '../Loader/Loader';
 import Products from './Products/Products';
 import styles from './ProductsArea.module.scss';
 
-interface ProductsAreaProps { 
-
-}
+interface ProductsAreaProps {}
 
 const ProductsArea: FC<ProductsAreaProps> = () => {
     const [products, setProducts] = useState<Product[]>([]);
@@ -51,7 +49,7 @@ const ProductsArea: FC<ProductsAreaProps> = () => {
 
     return (
         <div className={styles.ProductsArea}>
-            <Products onAddProduct={addProductHandler} products={products} />
+            <Products onAddProduct={addProductHandler} products={products} /> 
         </div>
     )
 }

@@ -5,8 +5,7 @@ import Aside from './Aside/Aside';
 import Main from './Main/Main';
 import styles from './LayoutArea.module.scss';
 
-
-interface LayoutAreaProps { }
+interface LayoutAreaProps { }  //the layoutareaprops is generic
 
 const LayoutArea: FC<LayoutAreaProps> = () => (
     <div className={styles.LayoutArea}>
