@@ -6,22 +6,26 @@ import validation from './validation';
 import styles from './AddProduct.module.scss';
 import FormGroupWithError from '../../FormGroupWithError/FormGroupWithError';
 import Button from '../../Button/Button';
+import { useAppDispatch } from '../../../hooks';
+import { addProduct } from '../productsSlice';
 import Modal from '../../Modal/Modal';
-import { addProduct } from '../../../utils/fetch';
+import { addProduct as addProductAsync } from '../../../utils/fetch';
 
 interface AddProductProps { 
     onClose:() => void;
-    onAddProduct:(product:Product) => void;
+    // onAddProduct:(product:Product) => void;
 }
 
 //curring
 
-const AddProduct: FC<AddProductProps> = ({onClose, onAddProduct}) => {
+const AddProduct: FC<AddProductProps> = ({onClose}) => {
+    const dispatch = useAppDispatch();
     const { register, handleSubmit, formState } = useForm<Product>();
 
     const submitProductHandler = (product: Product) => {
-        addProduct(product).then((_product) => {
-            onAddProduct(_product);
+        addProductAsync(product).then((_product) => {
+            // onAddProduct(_product);
+            dispatch(addProduct(product));
             onClose();
         }).catch((err) => {
         console.log(err);

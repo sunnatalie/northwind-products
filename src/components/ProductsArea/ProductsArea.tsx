@@ -1,14 +1,19 @@
 import React, { FC, useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import Product from './models/Product';
+// import {} from 'react-redux';
 import { getProducts } from '../../utils/fetch';
 import Loader from '../Loader/Loader';
 import Products from './Products/Products';
+import {setProducts} from './productsSlice';
 import styles from './ProductsArea.module.scss';
 
 interface ProductsAreaProps {}
 
 const ProductsArea: FC<ProductsAreaProps> = () => {
-    const [products, setProducts] = useState<Product[]>([]);
+    // const [products, setProducts] = useState<Product[]>([]);
+    const dispatch = useAppDispatch();
+    const { products } = useAppSelector((state) => state.productsState);
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
@@ -16,7 +21,8 @@ const ProductsArea: FC<ProductsAreaProps> = () => {
         setIsLoading(true);
 
         getProducts().then((products) => {
-            setProducts(products)
+            // setProducts(products) -- no longer relevant if we are using redux
+            dispatch(setProducts(products));
 
         }).catch((err) => {
 
@@ -28,15 +34,15 @@ const ProductsArea: FC<ProductsAreaProps> = () => {
 
     }, []);
 
-    const addProductHandler = (product:Product) => {
-        setProducts((prevProducts) => {
-            // never mutate the state directly!!!
-            const productsToUpdate = [...prevProducts];
-            productsToUpdate.push(product);
+    // const addProductHandler = (product:Product) => {
+    //     // setProducts((prevProducts) => {
+    //     //     // never mutate the state directly!!!
+    //     //     const productsToUpdate = [...prevProducts];
+    //     //     productsToUpdate.push(product);
 
-            return productsToUpdate;
-        });
-    }
+    //     //     return productsToUpdate;
+    //     // });
+    // }
 
 
     if (isLoading) {
@@ -49,7 +55,7 @@ const ProductsArea: FC<ProductsAreaProps> = () => {
 
     return (
         <div className={styles.ProductsArea}>
-            <Products onAddProduct={addProductHandler} products={products} /> 
+            <Products products={products} /> 
         </div>
     )
 }

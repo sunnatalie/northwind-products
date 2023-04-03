@@ -7,22 +7,26 @@ import styles from './EditProduct.module.scss';
 import FormGroupWithError from '../../FormGroupWithError/FormGroupWithError';
 import Button from '../../Button/Button';
 import Modal from '../../Modal/Modal';
-import { addProduct, updateProduct } from '../../../utils/fetch';
+import { productSlice } from '../productsSlice';
+import { updateProduct } from '../productsSlice';
+import { updateProduct as updateProductAsync } from '../../../utils/fetch';
+import { useAppDispatch } from '../../../hooks';
 
 interface EditProductProps { 
     onClose:() => void;
-    onEditProduct:(product:Product) => void;
+    // onEditProduct:(product:Product) => void;
     product:Product;
 }
 
 //curring
 
-const EditProduct: FC<EditProductProps> = ({onClose, onEditProduct, product}) => {
+const EditProduct: FC<EditProductProps> = ({onClose, product}) => {
+    const dispatch = useAppDispatch();
     const { register, handleSubmit, formState, setValue } = useForm<Product>();
 
     const submitProductHandler = (product: Product) => {
-        updateProduct(product).then(response => {
-            onEditProduct(response)
+        updateProductAsync(product).then(response => {
+            dispatch(updateProduct(product));
             onClose();
         }).catch(err => {
             console.log(err)

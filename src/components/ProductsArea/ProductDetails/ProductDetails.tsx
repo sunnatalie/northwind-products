@@ -3,39 +3,45 @@ import { useParams } from 'react-router-dom';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { BASE_API_URL } from '../../../config';
 import Product from '../models/Product';
-import { deleteProduct, getProduct } from '../../../utils/fetch';
+import { deleteProduct as deleteProductAsync, getProduct } from '../../../utils/fetch';
 import Loader from '../../Loader/Loader';
 import EditProduct from '../EditProduct/EditProduct';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { setProduct } from '../productsSlice';
+import { deleteProduct} from '../productsSlice';
 import styles from './ProductDetails.module.scss';
 
 interface ProductDetailsProps { }
 
 const ProductDetails: FC<ProductDetailsProps> = () => {
+    const dispatch = useAppDispatch();
     const [showEditProduct, setShowEditProduct] = useState(false);
     const params = useParams();
     const navigate = useNavigate();
-
-    const [product, setProduct] = useState<Product>();
+    const { product } = useAppSelector((state) => state.productsState);
+    // const [product, setProduct] = useState<Product>();
     const [loading, setLoading] = useState(true);
 
     const modalToggleHandler = () => {
         setShowEditProduct((prevState) => !prevState);
     }
 
-    const editProductHandler = (product:Product) => {
-        setProduct((prevProduct) => {
-            const updatedProduct = {...prevProduct,...product} //spread operator on both just in case
-            return updatedProduct;
-        })
-    }
+    // const editProductHandler = (product:Product) => {
+    //     // setProduct((prevProduct) => {
+    //     //     const updatedProduct = {...prevProduct,...product} //spread operator on both just in case
+    //     //     return updatedProduct;
+    //     // })
+    // }
 
     const deleteProductHandler = async () => {
         if(params.prodId){
+            const productId = +params.prodId;
             setLoading(true);
             try{
-                const success = await deleteProduct(+params.prodId);
+                const success = await deleteProductAsync(+params.prodId);
                 if(success){
                     alert('the product was deleted')
+                    dispatch(deleteProduct(productId));
                     navigate('/products')
                 }
             }catch(err){
@@ -51,7 +57,9 @@ const ProductDetails: FC<ProductDetailsProps> = () => {
 
             getProduct(+params.prodId).then((product) => {
 
-                setProduct(product);
+                dispatch(setProduct(product));
+
+                // setProduct(product);
 
             }).catch((err) => {
                 console.log(err);
@@ -104,7 +112,7 @@ const ProductDetails: FC<ProductDetailsProps> = () => {
             <div className={styles.ProductDetails__body}>
                 {renderProduct()}
             </div>
-            {(showEditProduct && product) && <EditProduct onClose={modalToggleHandler} onEditProduct={editProductHandler} product={product}/>}
+            {(showEditProduct && product) && <EditProduct onClose={modalToggleHandler} product={product}/>}
 
         </div>
     )
