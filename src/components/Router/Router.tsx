@@ -7,13 +7,23 @@ import PageNotFound from '../PageNotFound/PageNotFound';
 import ProductsArea from '../ProductsArea/ProductsArea';
 import ProductDetails from '../ProductsArea/ProductDetails/ProductDetails';
 import AddProduct from '../ProductsArea/AddProduct/AddProduct';
+import Register from '../AuthArea/Register/Register';
+import Login from '../AuthArea/Login/Login';
 
 interface RouterProps { }
+//jwt is a JSON web token
+// npm i jwt-decode
 
 const Router: FC<RouterProps> = () => (
     <Routes>
         {/* Home */}
         <Route path="/home" element={<Home />} />
+
+        {/* register */}
+        <Route path="/register" element={<Register />} />
+
+        {/* Login */}
+        <Route path="/login" element={<Login />} />
 
         {/* Products */}
         <Route path="/products" element={<ProductsArea />} />

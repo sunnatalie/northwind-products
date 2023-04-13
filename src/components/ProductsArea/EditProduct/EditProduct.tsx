@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from 'react';
 import { useForm } from "react-hook-form";
-import Product from '../models/Product';
+import Product from '../../../models/Product';
 import Input from '../../HomeArea/Input/Input';
 import validation from './validation';
 import styles from './EditProduct.module.scss';

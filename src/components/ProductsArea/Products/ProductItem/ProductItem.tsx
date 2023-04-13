@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 import { BASE_API_URL } from '../../../../config';
-import Product from '../../models/Product';
+import Product from '../../../../models/Product';
 import styles from './ProductItem.module.scss';
 
 interface ProductItemProps {

@@ -1,12 +1,12 @@
-import axios from 'axios';
-import Product from '../components/ProductsArea/models/Product';
-import { BASE_API_URL } from '../config';
+import axios from '../axios';
+import Product from '../models/Product';
+// import { BASE_API_URL } from '../config';
 
 
 
 export const getProducts = async (): Promise<Product[]> => {
     //ajax request
-    const response = await axios.get<Product[]>(`${BASE_API_URL}/products`);
+    const response = await axios.get<Product[]>(`/products`); //don't need baseAPIURL because we are getting it from axios
 
     //extract products
 
@@ -28,7 +28,7 @@ export const getProducts = async (): Promise<Product[]> => {
 export const getProduct = async (id: number): Promise<Product> => {
 
     //ajax req
-    const response = await axios.get(`${BASE_API_URL}/products/${id}`);
+    const response = await axios.get(`/products/${id}`);
     const product = response.data;
 
     return new Promise((resolve, reject) => {
@@ -61,7 +61,7 @@ export const addProduct = async (product:Product):Promise<Product> => {
     formData.append('stock',product.stock.toString())
     formData.append('image',product.image[0]) //image = filelist[0] = File / Blob (big like object binary)
 
-    const response = await axios.post<Product>(`${BASE_API_URL}/products/`,formData);
+    const response = await axios.post<Product>(`/products/`,formData);
 
     const addedProduct = response.data;
 
@@ -82,7 +82,7 @@ export const updateProduct = async (product:Product):Promise<Product> => {
     formData.append('stock',product.stock.toString())
     formData.append('image',product.image[0]) 
 
-    const response = await axios.put<Product>(`${BASE_API_URL}/products/${product.id}`,formData);
+    const response = await axios.put<Product>(`/products/${product.id}`,formData);
 
     const updatedProduct = response.data;
 
@@ -95,7 +95,7 @@ export const updateProduct = async (product:Product):Promise<Product> => {
 }
 
 export const deleteProduct = async (id:number):Promise<boolean> => {
-    await axios.delete(`${BASE_API_URL}/products/${id}`);
+    await axios.delete(`/products/${id}`);
 
     return new Promise((resolve, reject) => {
 

@@ -1,8 +1,8 @@
 import React, { FC, useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useFetcher, useParams } from 'react-router-dom';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { BASE_API_URL } from '../../../config';
-import Product from '../models/Product';
+import Product from '../../../models/Product';
 import { deleteProduct as deleteProductAsync, getProduct } from '../../../utils/fetch';
 import Loader from '../../Loader/Loader';
 import EditProduct from '../EditProduct/EditProduct';
@@ -18,9 +18,11 @@ const ProductDetails: FC<ProductDetailsProps> = () => {
     const [showEditProduct, setShowEditProduct] = useState(false);
     const params = useParams();
     const navigate = useNavigate();
-    const { product } = useAppSelector((state) => state.productsState);
+    const { productsState, authState } = useAppSelector((state) => state);
+    const {product} = productsState;
+    const {user} = authState;
     // const [product, setProduct] = useState<Product>();
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     const modalToggleHandler = () => {
         setShowEditProduct((prevState) => !prevState);
@@ -33,20 +35,59 @@ const ProductDetails: FC<ProductDetailsProps> = () => {
     //     // })
     // }
 
+    // const deleteProductHandler = async () => {
+    //     if(params.prodId){
+    //         const productId = +params.prodId;
+    //         const product = products.find((p) => p.id === id);
+
+    //         if(product){
+    //             dispatch(setProduct(product));
+    //         }else{
+
+    //         getProduct(+params.prodId).then((product) => {
+
+    //             dispatch(setProduct(product));
+
+    //             // setProduct(product);
+
+    //         }).catch((err) => {
+    //             console.log(err);
+
+    //         }).finally(() => {
+    //             setLoading(false);
+    //         })
+    //         }
+
+    //         setLoading(true);
+    //         try{
+    //             const success = await deleteProductAsync(+params.prodId);
+    //             if(success){
+    //                 alert('the product was deleted')
+    //                 dispatch(deleteProduct(productId));
+    //                 navigate('/products')
+    //             }
+    //         }catch(err){
+    //             console.log('delete error',err)
+    //         }finally{
+
+    //         }
+    //     }
+    // }
+
     const deleteProductHandler = async () => {
-        if(params.prodId){
+        if (params.prodId) {
             const productId = +params.prodId;
             setLoading(true);
-            try{
-                const success = await deleteProductAsync(+params.prodId);
-                if(success){
+            try {
+                const success = await deleteProductAsync(productId);
+                if (success) {
                     alert('the product was deleted')
                     dispatch(deleteProduct(productId));
-                    navigate('/products')
+                    navigate('/products');
                 }
-            }catch(err){
-                console.log('delete error',err)
-            }finally{
+            } catch (err) {
+                console.log('delete error', err)
+                setLoading(false);
 
             }
         }
@@ -54,6 +95,8 @@ const ProductDetails: FC<ProductDetailsProps> = () => {
 
     useEffect(() => {
         if (params.prodId) {
+
+            const id = +params.prodId;
 
             getProduct(+params.prodId).then((product) => {
 
@@ -71,6 +114,19 @@ const ProductDetails: FC<ProductDetailsProps> = () => {
         }
     }, []);
 
+    const renderButtonUponLogin = () => {
+        if(user){
+            return(
+                <div>
+                    <span>|</span>
+                    <NavLink onClick={modalToggleHandler} to="#">Edit</NavLink>
+                    <span>|</span>
+                    <NavLink onClick={deleteProductHandler} to="#">Delete</NavLink>
+                </div>
+            )
+        }
+        return null
+    }
     const renderProduct = () => {
         if (product) {
             const imgSrc = `${BASE_API_URL}/products/images/${product.imageName}`;

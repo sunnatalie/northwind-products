@@ -1,9 +1,10 @@
 import React, { FC, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import Product from '../models/Product';
+import Product from '../../../models/Product';
 import AddProduct from '../AddProduct/AddProduct';
 import ProductItem from './ProductItem/ProductItem';
 import styles from './Products.module.scss';
+import { useAppSelector } from '../../../hooks';
 
 
 interface ProductsProps {
@@ -12,6 +13,8 @@ interface ProductsProps {
 }
 
 const Products: FC<ProductsProps> = ({ products}) => {
+
+    const {user} = useAppSelector((state) => state.authState);
 
     const [showAddProduct,setShowAddProduct] = useState(false);
 
@@ -28,7 +31,7 @@ const Products: FC<ProductsProps> = ({ products}) => {
 
     return (
         <div className={styles.Products}>
-            <NavLink onClick={modalToggleHandler} to="#"> Add new product </NavLink>
+            { user && <NavLink onClick={modalToggleHandler} to="#"> Add new product </NavLink> }
             <ul className={styles.Products__list}>
                 {renderProducts()}
             </ul>

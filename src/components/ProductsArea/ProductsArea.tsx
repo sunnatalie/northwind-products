@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import Product from './models/Product';
+import Product from '../../models/Product';
 // import {} from 'react-redux';
 import { getProducts } from '../../utils/fetch';
 import Loader from '../Loader/Loader';
