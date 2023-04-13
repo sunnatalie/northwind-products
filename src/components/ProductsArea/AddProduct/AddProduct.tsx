@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { useForm } from "react-hook-form";
 import Product from '../../../models/Product';
 import Input from '../../HomeArea/Input/Input';
@@ -10,9 +10,10 @@ import { useAppDispatch } from '../../../hooks';
 import { addProduct } from '../productsSlice';
 import Modal from '../../Modal/Modal';
 import { addProduct as addProductAsync } from '../../../utils/fetch';
+import Alert from '../../Alert/Alert';
 
 interface AddProductProps { 
-    onClose:() => void;
+    onClose: () => void;
     // onAddProduct:(product:Product) => void;
 }
 
@@ -21,6 +22,9 @@ interface AddProductProps {
 const AddProduct: FC<AddProductProps> = ({onClose}) => {
     const dispatch = useAppDispatch();
     const { register, handleSubmit, formState } = useForm<Product>();
+    const [error, setError] = useState<any>(null);
+    const [showError, setShowError] = useState(false);
+
 
     const submitProductHandler = (product: Product) => {
         addProductAsync(product).then((_product) => {
@@ -28,15 +32,25 @@ const AddProduct: FC<AddProductProps> = ({onClose}) => {
             dispatch(addProduct(product));
             onClose();
         }).catch((err) => {
-        console.log(err);
+            setShowError(true);
+            setError(err);
+            // console.log(err);
         });
     }
+
+    console.log(error);
 
     console.log(formState.errors.name?.message); // have to add question mark in order to state that the error may not appear at all in the .message. if the name is adequate, then undefined is returned
 
     return (
         
         <Modal onClose={onClose}>
+            {error && showError && 
+                <Alert error={'it seems that you are trying to do something...'} onClose={() => setShowError(false)}>
+                    <button onClick={() => {
+                        window.location.reload();
+                    }}>refresh</button>
+                </Alert>}
             <div className={styles.AddProduct}>
                 <h2>Add Product</h2>
                 <form onSubmit={handleSubmit(submitProductHandler)} >
