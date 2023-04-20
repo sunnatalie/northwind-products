@@ -36,9 +36,11 @@ const Provider:React.FC<UserInfoProps> = ({children}) => {
                 hobbies: updatedHobbies
             }
         });
-    }
+    } //
 
     return <UserContext.Provider value={[user, addHobby]}>
         {children}
     </UserContext.Provider>
 }
+
+export default Provider;

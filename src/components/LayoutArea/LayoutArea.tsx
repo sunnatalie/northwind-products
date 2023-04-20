@@ -4,15 +4,21 @@ import Footer from './Footer/Footer';
 import Aside from './Aside/Aside';
 import Main from './Main/Main';
 import styles from './LayoutArea.module.scss';
+import UserProvider from '../../context';
 
 interface LayoutAreaProps { }  //the layoutareaprops is generic
 
 const LayoutArea: FC<LayoutAreaProps> = () => (
+
     <div className={styles.LayoutArea}>
-        <Header />
-        <Aside />
-        <Main />
-        <Footer />
+        
+        <UserProvider>
+            <Header />
+            <Aside />
+            <Main />
+            <Footer />
+        </UserProvider>
+
     </div>
 );
 

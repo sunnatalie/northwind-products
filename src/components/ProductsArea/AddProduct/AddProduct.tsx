@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState, useRef } from 'react';
 import { useForm } from "react-hook-form";
 import Product from '../../../models/Product';
 import Input from '../../HomeArea/Input/Input';
@@ -12,6 +12,11 @@ import Modal from '../../Modal/Modal';
 import { addProduct as addProductAsync } from '../../../utils/fetch';
 import Alert from '../../Alert/Alert';
 
+type User = {
+    name: string;
+    age: number;
+}
+
 interface AddProductProps { 
     onClose: () => void;
     // onAddProduct:(product:Product) => void;
@@ -21,10 +26,16 @@ interface AddProductProps {
 
 const AddProduct: FC<AddProductProps> = ({onClose}) => {
     const dispatch = useAppDispatch();
+    const [user, setUser] = useState({
+        name: 'yogev',
+        age: 35
+    })
     const { register, handleSubmit, formState } = useForm<Product>();
     const [error, setError] = useState<any>(null);
     const [showError, setShowError] = useState(false);
-
+    const inputRef = useRef<HTMLInputElement | null>(null); //always returns field with the name current. Current does not refresh when the component refreshes
+    const prevStateRef = useRef<User>(user);
+    let prevStateWithoutRef: User = user;
 
     const submitProductHandler = (product: Product) => {
         addProductAsync(product).then((_product) => {
@@ -37,6 +48,35 @@ const AddProduct: FC<AddProductProps> = ({onClose}) => {
             // console.log(err);
         });
     }
+
+
+    // useEffect(() => {
+    //     prevStateRef.current = user;
+        
+    // },[])
+
+    console.log('prevStateRef',prevStateRef)
+    console.log('prevStateWithourRef',prevStateWithoutRef)
+
+    useEffect(() => {
+
+        if(inputRef.current){
+            inputRef.current.focus();
+        }
+        console.log('use effect', inputRef)
+    }, []);
+
+    // useEffect(() => {
+
+    //     const input = document.getElementById('input1');
+    //     console.log(input);
+    //     if (input){
+    //         input.focus();
+    //     }
+    //     console.log('useEffectttt')
+    // },[]);
+
+    console.log('add product component render', inputRef)
 
     console.log(error);
 
@@ -55,9 +95,18 @@ const AddProduct: FC<AddProductProps> = ({onClose}) => {
                 <h2>Add Product</h2>
                 <form onSubmit={handleSubmit(submitProductHandler)} >
 
+                    <label htmlFor="">Focus</label>
+                    <input type="text" ref={inputRef}/>
+                    <button onClick={() => {
+                        setUser({
+                            name: 'Johney',
+                            age: 20
+                        })
+                    }}>user</button>
+
                     <FormGroupWithError error={formState.errors.name?.message}>
                         <label>Name:</label>
-                        <input type="text" {...register('name',validation.name)} />
+                        <input id="input1" type="text" {...register('name',validation.name)} />
                     </FormGroupWithError>
 
                     <FormGroupWithError error={formState.errors.price?.message}>
