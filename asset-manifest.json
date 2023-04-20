@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/northwind-products/static/css/main.27876b59.css",
+    "main.js": "/northwind-products/static/js/main.6cd67e08.js",
+    "index.html": "/northwind-products/index.html",
+    "main.27876b59.css.map": "/northwind-products/static/css/main.27876b59.css.map",
+    "main.6cd67e08.js.map": "/northwind-products/static/js/main.6cd67e08.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.27876b59.css",
+    "static/js/main.6cd67e08.js"
+  ]
+}
